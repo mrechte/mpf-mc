@@ -1,5 +1,6 @@
 """DMD (hardware device)."""
 import struct
+import queue
 
 from kivy.graphics.instructions import Callback
 from kivy.uix.effectwidget import EffectWidget
@@ -12,6 +13,8 @@ from kivy.graphics.texture import Texture
 from mpfmc.effects.gain import GainEffect
 from mpfmc.effects.flip_vertical import FlipVerticalEffect
 from mpfmc.effects.gamma import GammaEffect
+from mpfmc.core.rpi_dmd import RpiRgbDmdDevice
+
 
 MYPY = False
 if MYPY:   # pragma: no cover
@@ -19,7 +22,9 @@ if MYPY:   # pragma: no cover
 
 
 class DmdBase:
-    """Base class for DMD devices."""
+    """Base class for DMD devices.
+        This must be instanciated before init_done event, viz. in init_phase_5
+    """
 
     dmd_name_string = 'DMD'
 
@@ -36,6 +41,10 @@ class DmdBase:
         self.source = self.mc.displays[self.config['source_display']]
         self.prev_data = None
         self._dirty = True
+
+        # create a Queue for frame buffers
+        self.frame_queue = queue.Queue(maxsize=100000)
+        self.frame_thread = None
 
         # put the widget canvas on a Fbo
         texture = Texture.create(size=self.source.size, colorfmt='rgb')
@@ -64,7 +73,15 @@ class DmdBase:
         with self.source.canvas:
             self.callback = Callback(self._trigger_rendering)
 
+
+        # self.mc.events.add_handler('init_done', self._start_frame_thread)
+        self._start_frame_thread()
+              
         self._set_dmd_fps()
+
+    def _start_frame_thread(self):
+        raise NotImplementedError
+
 
     def _trigger_rendering(self, *args):
         del args
@@ -189,6 +206,20 @@ class RgbDmd(DmdBase):
     def _get_validated_config(self, config: dict) -> dict:
         return self.mc.config_validator.validate_config('rgb_dmds', config)
 
+    #def _start_frame_thread(self, **kwargs):
+    def _start_frame_thread(self):
+        self.mc.log.info("Sarting RgbDmd device thread")
+        # mc.config is kivi.ConfigParser ! use mc.machine_config
+        config = self.mc.config_validator.validate_config(
+            config_spec='rpi_dmd',
+            source=self.mc.machine_config.get('rpi_dmd', {})
+        )
+        self.frame_thread = RpiRgbDmdDevice(self.mc, config, self.frame_queue)
+        self.frame_thread.daemon = True
+        self.frame_thread.start()
+        #self.mc.events.remove_handler(self._start_frame_thread)
+        
+
     @staticmethod
     def _reorder_channels(data, order):
         new_data = bytearray()
@@ -206,7 +237,11 @@ class RgbDmd(DmdBase):
         return bytes(new_data)
 
     def send(self, data: bytes) -> None:
-        """Send data to RGB DMD via BCP."""
+        """Send data to RGB DMD via Queue."""
         if self.config['channel_order'] != 'rgb':
             data = self._reorder_channels(data, self.config['channel_order'])
-        self.mc.bcp_processor.send('rgb_dmd_frame', rawbytes=data, name=self.name)
+        try:
+            self.frame_queue.put(data, block=False, timeout=0.1)
+        except queue.Full:
+            # drop frame
+            pass

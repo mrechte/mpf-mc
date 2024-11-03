@@ -94,6 +94,7 @@ class MpfMc(App):
         self.mc_config = config
         self.config_validator = ConfigValidator(self, config.get_config_spec())
         self.machine_config = self.mc_config.get_machine_config()
+        # warning self.config will become a kivy.ConfigParser !
         self.config = self.machine_config
 
         self.clock = Clock
@@ -179,7 +180,7 @@ class MpfMc(App):
 
         self.clock.schedule_interval(self._check_crash_queue, 1)
 
-        self.events.add_handler("client_connected", self._create_dmds)
+        self.events.add_handler("init_done", self._create_dmds)
         self.events.add_handler("player_turn_start", self.player_start_turn)
 
         self.create_machine_var('mpfmc_ver', __version__)
