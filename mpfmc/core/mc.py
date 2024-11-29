@@ -180,6 +180,7 @@ class MpfMc(App):
 
         self.clock.schedule_interval(self._check_crash_queue, 1)
 
+        #self.events.add_handler("client_connected", self._create_dmds)
         self.events.add_handler("init_done", self._create_dmds)
         self.events.add_handler("player_turn_start", self.player_start_turn)
 
@@ -242,7 +243,8 @@ class MpfMc(App):
         del kwargs
         self.create_dmds()
         self.create_rgb_dmds()
-        self.events.remove_all_handlers_for_event("client_connected")
+        #self.events.remove_all_handlers_for_event("client_connected")
+        self.events.remove_all_handlers_for_event("init_done")
 
     def _load_font_paths(self):
         # Add local machine fonts path
