@@ -214,6 +214,7 @@ class RgbDmd(DmdBase):
             config_spec='rpi_dmd',
             source=self.mc.machine_config.get('rpi_dmd', {})
         )
+        # TODO choose class from config.
         self.frame_thread = RpiRgbDmdDevice(self.mc, config, self.frame_queue)
         self.frame_thread.daemon = True
         self.frame_thread.start()
@@ -238,6 +239,7 @@ class RgbDmd(DmdBase):
 
     def send(self, data: bytes) -> None:
         """Send data to RGB DMD via Queue."""
+        # config from 'rgb_dmds' key
         if self.config['channel_order'] != 'rgb':
             data = self._reorder_channels(data, self.config['channel_order'])
         try:
