@@ -50,7 +50,7 @@ class RpiRgbDmdDevice(threading.Thread):
                 else:
                     continue
             self.update(frame)
-            
+
 
     def update(self, data):
         """Update DMD data."""
@@ -59,7 +59,8 @@ class RpiRgbDmdDevice(threading.Thread):
             self.socket.sendto(data, self.socket_path)
         except FileNotFoundError:
             pass
-            
+
+
     def set_brightness(self, brightness: float):
         """Set brightness.
 

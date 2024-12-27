@@ -219,12 +219,16 @@ class Command:
         except Exception as e:  # noqa
             logging.exception(str(e))
 
-        logging.info("Stopping child threads... (%s remaining)", len(threading.enumerate()) - 1)
-
         thread_stopper.set()
 
-        while len(threading.enumerate()) > 1:
-            time.sleep(.1)
+        all_stopped = False
+        while not all_stopped:
+            threads = [t.name for t in threading.enumerate() if t.name not in ('MainThread', 'MTDMotionEventProvider')]
+            if threads:
+                logging.info("Waiting child threads to terminate... (%s remaining)", len(threads))
+                time.sleep(3)
+            else:
+                all_stopped = True
 
         logging.info("All child threads stopped.")
         logging.shutdown()

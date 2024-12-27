@@ -216,6 +216,7 @@ class RgbDmd(DmdBase):
         )
         # TODO choose class from config.
         self.frame_thread = RpiRgbDmdDevice(self.mc, config, self.frame_queue)
+        self.frame_thread.name = self.__class__.__name__
         self.frame_thread.daemon = True
         self.frame_thread.start()
         #self.mc.events.remove_handler(self._start_frame_thread)
