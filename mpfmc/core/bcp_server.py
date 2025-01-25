@@ -98,7 +98,7 @@ class BCPServer(threading.Thread):
             try:
                 self.connection, client_address = self.socket.accept()
             except (socket.timeout, OSError):
-                if self.mc.options['production'] and start_time + 30 < time.time():
+                if self.mc.options['production'] and start_time + 180 < time.time():
                     self.log.warning("Timeout while waiting for connection. Stopping!")
                     self.mc.stop()
                     return False
