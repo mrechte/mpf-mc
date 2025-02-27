@@ -163,14 +163,14 @@ class MpfTextInput(Text):
                                          text=self.current_list[0])
 
             if self.current_list[0] == 'end':
-                self.font_size = self.config['font_size'] / 2
-                self.update_text('END')
-            elif self.current_list[0] == ' ':
-                self.font_size = self.config['font_size'] / 2
-                self.update_text('SPACE')
+                self.font_size = self.config['font_size'] * 0.75
+                self.update_text('  END')
+#            elif self.current_list[0] == ' ':
+#                self.font_size = self.config['font_size'] * 0.75
+#                self.update_text('SPACE')
             elif self.current_list[0] == 'back':
-                self.font_size = self.config['font_size'] / 2
-                self.update_text('BACK')
+                self.font_size = self.config['font_size'] * 0.75
+                self.update_text('   BACK')
             else:
                 self.font_size = self.config['font_size']
                 self.update_text(self.current_list[0])
