@@ -254,7 +254,7 @@ class Text(Widget):
 
                 # group the numbers and replace them in the string
                 for item in number_list:
-                    grouped_item = Text.group_digits(item)
+                    grouped_item = Text.group_digits(item, self.config['digit_group_seperator'])
                     text = text.replace(str(item), grouped_item)
 
             if self.config.get('casing', None) in ('lower', 'upper', 'title', 'capitalize'):
