@@ -22,6 +22,21 @@ The MPF project homepage is here : https://missionpinball.org
 [![Coverage Status](https://coveralls.io/repos/missionpinball/mpf-mc/badge.svg?branch=dev&service=github)](https://coveralls.io/github/missionpinball/mpf-mc?branch=dev)
 [![Test & Build Status](https://github.com/missionpinball/mpf-mc/actions/workflows/build_wheels.yml/badge.svg)](https://github.com/missionpinball/mpf-mc/actions/workflows/build_wheels.yml)
 
+What is special here ?
+----------------------
+
+This was forked mainly for my Fast Draw / Quick Draw EM project. A few modifications were directly merged on the original project, 
+some others were refused, and some may not be useful (or considered too dirty) to be included in mainstream.
+
+DMD support:
+
+- Allow DMD frames to be sent to UNIX socket server rather than back to MPF.
+
+Miscellaneous:
+
+- Move to recent Kivy 2.3.0. 
+
+
 Documentation
 -------------
 
