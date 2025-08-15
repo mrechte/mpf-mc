@@ -9,6 +9,7 @@ mpf-mc:
         sound_loop: mpfmc.config_players.sound_loop_player
         playlist: mpfmc.config_players.playlist_player
         display_light: mpfmc.config_players.display_light_player
+        mc_system: mpfmc.config_players.mc_system_player
 
     config_collections:
         slide: mpfmc.config_collections.slide
@@ -75,10 +76,10 @@ mpf-mc:
 
 logging:
     console:
-      asset_manager: none
-      placeholder_manager: none  # todo
-      settings_controller: none  # todo
-      event_manager: none
+      asset_manager: basic
+      placeholder_manager: basic  # todo
+      settings_controller: basic  # todo
+      event_manager: basic
     file:
       asset_manager: basic
       placeholder_manager: basic

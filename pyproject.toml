@@ -47,6 +47,7 @@ widget_player = "mpfmc.config_players.plugins.widget_player:register_with_mpf"
 slide_player = "mpfmc.config_players.plugins.slide_player:register_with_mpf"
 track_player = "mpfmc.config_players.plugins.track_player:register_with_mpf"
 display_light_player = "mpfmc.config_players.plugins.display_light_player:register_with_mpf"
+mc_system_player = "mpfmc.config_players.plugins.mc_system_player:register_with_mpf"
 
 [project.entry-points."mpf.command"]
 mc = "mpfmc.commands.mc:get_command"
