@@ -34,7 +34,8 @@ DMD support:
 
 Miscellaneous:
 
-- Move to recent Kivy 2.3.0. 
+- Move to recent Kivy 2.3.0.
+- new mc_system config player, to allow executing system commands on the media controller.
 
 
 Documentation
