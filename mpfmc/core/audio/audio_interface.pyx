@@ -756,7 +756,7 @@ cdef class AudioInterface:
             track.process()
 
     @staticmethod
-    cdef void audio_callback(void* data, Uint8 *output_buffer, int length) nogil:
+    cdef void audio_callback(void* data, Uint8 *output_buffer, int length) nogil noexcept:
         """
         Main audio callback function (called from SDL_mixer).
         Args:

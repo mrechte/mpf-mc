@@ -2,7 +2,7 @@
 name = "mpf-mc"
 description = "Mission Pinball Framework Media Controller"
 readme = "README.md"
-requires-python = ">=3.8, <3.12"
+requires-python = ">=3.9, <3.15"
 license = {text = "MIT"}
 authors = [{ name = "The Mission Pinball Framework Team", email = "brian@missionpinball.org"}]
 keywords = ["pinball"]
@@ -10,10 +10,10 @@ classifiers=[
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.14",
     "Natural Language :: English",
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: Microsoft :: Windows",
@@ -22,11 +22,8 @@ classifiers=[
     "Topic :: Games/Entertainment :: Arcade"
     ]
 dependencies = [
-    "mpf >= 0.57.0",  # ALSO CHANGE THIS IN _version.py
-    "kivy == 2.3.0",  # Dec 27, 2024  # Will require a Pillow 11 (see mpf pyproject.toml)
-    "psutil == 5.9.8",  # Sept 19, 2023
-    "Pygments", # Sept 19, 2023  Only used for the interactive MC. Does anyone use that?
-    "ffpyplayer == 4.5.1",  # Nov 3, 2023  4.5.1 needed for RPi.
+    "mpf >= 0.57.0, <0.58.0",  # ALSO CHANGE THIS IN _version.py
+    "kivy ~= 2.3",  # Dec 27, 2024  # Will require a Pillow 11 (see mpf pyproject.toml)
 
     # These kivy versions match the ones from kivy
     "kivy_deps.sdl2 == 0.6.0; platform_system=='Windows'",  # Sept 19, 2023
@@ -74,7 +71,7 @@ include = ["mpfmc*"]
 requires = [
     "setuptools >= 63",
     "setuptools_scm[toml] >= 6.2",
-    "cython == 0.29.36, < 3.0",
+    "cython ~= 3.0",
     "pkgconfig",
     "kivy_deps.sdl2 >= 0.6.0; platform_system=='Windows'",
     "kivy_deps.sdl2-dev >= 0.6.0; platform_system=='Windows'",
